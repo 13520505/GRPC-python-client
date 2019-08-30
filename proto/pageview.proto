@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+
+message PSession {
+    string guid = 1;
+    int32 locId = 2;
+    int64 lastActiveTs = 3;
+    int32 os_code = 4;
+    repeated PPageView pageViews = 5;
+}
+
+
+message PPageView {
+    string url = 1;
+    int64 timecreate = 2;
+    int64 timeOnSite = 3;
+    int64 timeOnRead = 4;
+}
+
+message PRequestInfo {
+    string guid = 1;
+}
+
+message PingResponse {
+    string data = 1;
+}
+message PingRequest {
+
+}
+service SessionService {
+    rpc GetSession(PRequestInfo) returns (PSession);
+    rpc Ping(PingRequest) returns (PingResponse);
+}
+
+message ArticleContext{
+    string newsId = 1;
+    int32 popularity = 2;
+    double recency = 3;
+}
+message ArticleRequest{
+    string newsId =1;
+}
+message LastNClick{
+    repeated string newsId=1;
+}
+message LastNClickRequest{
+    int32 n = 1 ;
+}
+service ArticleContextService{
+    rpc GetArticleContext(ArticleRequest) returns (ArticleContext);
+    rpc GetLastNClick(LastNClickRequest) returns (LastNClick);
+}
